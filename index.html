@@ -15,16 +15,14 @@
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 
-    html {
-      min-height: 100%;
-    }
+    html { min-height: 100%; }
 
     body {
-      min-height: 100dvh;                  /* full viewport height */
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;             /* vertical center */
+      justify-content: center;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       color: var(--text);
       background: radial-gradient(circle at top left, #fff9fd 0%, var(--bg1) 35%, var(--bg2) 70%, var(--bg3) 100%);
@@ -77,8 +75,6 @@
 
     h1 { font-size: clamp(30px, 8vw, 42px); line-height: 1.07; letter-spacing: -0.03em; margin-bottom: 10px; }
 
-    .subtitle { color: var(--sub); font-size: 15px; line-height: 1.5; max-width: 300px; margin-bottom: 18px; }
-
     .sorry-box {
       width: 100%;
       background: linear-gradient(135deg, #fff7fb, #ffeef7);
@@ -103,6 +99,7 @@
     .scratch-tag { color: #a14b76; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 5px; }
     .scratch-sub { color: var(--sub); font-size: 14px; margin-bottom: 16px; }
 
+    /* ── scratch card ── */
     .scratch-card {
       position: relative; width: 100%; aspect-ratio: 16 / 10;
       border-radius: 22px; overflow: hidden;
@@ -119,7 +116,9 @@
         radial-gradient(circle at 18% 14%, rgba(255,255,255,.92), transparent 18%),
         radial-gradient(circle at 82% 82%, rgba(255,255,255,.6), transparent 20%),
         linear-gradient(155deg, #fffafc 0%, #ffe3f1 50%, #ffd5ea 100%);
+      transition: opacity .5s ease;
     }
+
     .prize::before, .prize::after {
       content: "✦"; position: absolute; color: #ff88b8;
       font-size: 18px; animation: twinkle 2s ease-in-out infinite;
@@ -140,11 +139,53 @@
     .prize h2 { font-size: clamp(20px, 5.5vw, 26px); line-height: 1.15; letter-spacing: -0.03em; color: #7a2e57; margin-bottom: 5px; }
     .prize p  { color: #9c597c; font-size: 13px; }
 
+    /* ── GIF inside scratch card — hidden until 7s after reveal ── */
+    .prize-gif {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(155deg, #fffafc 0%, #ffe3f1 50%, #ffd5ea 100%);
+      border-radius: 22px;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.85);
+      transition: opacity .6s ease, transform .6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 5;
+    }
+
+    .prize-gif img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+      border-radius: 14px;
+      filter: drop-shadow(0 6px 16px rgba(168,74,123,0.2));
+      animation: gifBob 2.5s ease-in-out infinite;
+    }
+
+    @keyframes gifBob {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-6px) scale(1.03); }
+    }
+
+    /* state when shown */
+    .prize-gif.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1);
+    }
+
+    /* fades prize text out just before gif comes in */
+    .prize.fade-out {
+      opacity: 0;
+    }
+
     #scratchCanvas {
       position: absolute; inset: 0; width: 100%; height: 100%;
       display: block; touch-action: none; cursor: pointer; border-radius: 22px;
+      z-index: 3;
     }
-
     .scratch-card.revealed #scratchCanvas {
       opacity: 0;
       transition: opacity .45s ease;
@@ -154,30 +195,69 @@
     .hint      { margin-top: 12px; font-size: 13px; color: #8b5171; }
     .tiny-note { margin-top: 5px; font-size: 11px; color: #b86b91; }
 
-    /* ── CHIBI — hidden until scratch revealed ── */
+    /* countdown ring shown below hint after reveal */
+    .countdown-wrap {
+      margin-top: 10px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+    .countdown-wrap.visible { display: flex; }
+
+    .countdown-label {
+      font-size: 11px;
+      color: #b86b91;
+    }
+
+    .ring {
+      width: 34px; height: 34px;
+      position: relative;
+    }
+
+    .ring svg {
+      transform: rotate(-90deg);
+      width: 34px; height: 34px;
+    }
+
+    .ring-bg { fill: none; stroke: #ffd3e7; stroke-width: 3; }
+    .ring-fill {
+      fill: none;
+      stroke: #ff6fae;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-dasharray: 88; /* 2π × 14 ≈ 88 */
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 1s linear;
+    }
+
+    .ring-num {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #b05682;
+    }
+
+    /* ── CHIBI ── */
     .peek-btn {
       position: fixed;
       right: -8px;
       bottom: calc(8px + env(safe-area-inset-bottom));
-      width: 108px;
-      height: 136px;
-      border: none;
-      background: transparent;
-      padding: 0;
-      cursor: pointer;
-      z-index: 20;
-      opacity: 0;
-      pointer-events: none;
+      width: 108px; height: 136px;
+      border: none; background: transparent;
+      padding: 0; cursor: pointer; z-index: 20;
+      opacity: 0; pointer-events: none;
       transform: translateY(60px);
       transition: opacity .5s ease, transform .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
     .peek-btn.visible {
-      opacity: 1;
-      pointer-events: auto;
+      opacity: 1; pointer-events: auto;
       animation: chibiBounceIn .65s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
-
     @keyframes chibiBounceIn {
       0%   { transform: translateY(80px); opacity: 0; }
       60%  { transform: translateY(-8px); opacity: 1; }
@@ -287,7 +367,6 @@
     @media (max-width: 370px) {
       .card { padding: 20px 16px; }
       h1 { font-size: 27px; }
-      .peek-btn { transform-origin: bottom right; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -313,23 +392,45 @@
       <div class="divider"></div>
 
       <p class="scratch-tag">A little gift for you</p>
-      <p class="scratch-sub"> Scratch &amp; see your luck ~ </p>
+      <p class="scratch-sub">Scratch &amp; see your luck ~</p>
 
       <div class="scratch-card" id="scratchCard">
-        <div class="prize">
+
+        <!-- prize text layer -->
+        <div class="prize" id="prizeLayer">
           <div class="prize-badge">congratulations cutie 🎉</div>
           <h2>You won a tight hug<br>on your next meet! 💞</h2>
           <p>claimed &amp; non-refundable 🥺</p>
         </div>
+
+        <!-- GIF layer — appears 7s after reveal, sits above prize -->
+        <!-- ✏️ Replace "your-gif.gif" with your actual filename -->
+        <div class="prize-gif" id="prizeGif">
+          <img src="./assets/WhatsApp Sticker 2026-04-30 at 8.49.39 PM.39 PM" alt="a little something for you 💗" />
+        </div>
+
         <canvas id="scratchCanvas" aria-label="Scratch to reveal your prize"></canvas>
       </div>
 
       <p class="hint" id="hint">Scratch with your finger 💅</p>
       <p class="tiny-note" id="tinyNote">tiny spoiler: your luck is very cute today</p>
+
+      <!-- countdown ring — appears after reveal, counts down 7s -->
+      <div class="countdown-wrap" id="countdownWrap">
+        <p class="countdown-label">something's coming 🌸</p>
+        <div class="ring">
+          <svg viewBox="0 0 34 34">
+            <circle class="ring-bg"   cx="17" cy="17" r="14"/>
+            <circle class="ring-fill" cx="17" cy="17" r="14" id="ringFill"/>
+          </svg>
+          <div class="ring-num" id="ringNum">7</div>
+        </div>
+      </div>
+
     </div>
   </main>
 
-  <!-- chibi — hidden until scratch done -->
+  <!-- chibi -->
   <button class="peek-btn" id="peekBtn" aria-label="Open secret message">
     <span class="tap-label">pssst! tap me 🌸</span>
     <span class="peeker">
@@ -353,7 +454,7 @@
       <div class="secret-badge">a little extra, from me to you</div>
       <h3 id="secretTitle">hey you 💗</h3>
       <p>
-        I choose to be with you <br>
+        I choose to be with you<br>
         not just for one day,<br>
         but for as long as possible. ∞
       </p>
@@ -376,17 +477,25 @@
     }
 
     /* scratch card */
-    const scratchCard = document.getElementById("scratchCard");
-    const canvas      = document.getElementById("scratchCanvas");
-    const hint        = document.getElementById("hint");
-    const tinyNote    = document.getElementById("tinyNote");
-    const ctx         = canvas.getContext("2d", { willReadFrequently: true });
-    const peekBtn     = document.getElementById("peekBtn");
+    const scratchCard   = document.getElementById("scratchCard");
+    const canvas        = document.getElementById("scratchCanvas");
+    const hint          = document.getElementById("hint");
+    const tinyNote      = document.getElementById("tinyNote");
+    const prizeLayer    = document.getElementById("prizeLayer");
+    const prizeGif      = document.getElementById("prizeGif");
+    const peekBtn       = document.getElementById("peekBtn");
+    const countdownWrap = document.getElementById("countdownWrap");
+    const ringFill      = document.getElementById("ringFill");
+    const ringNum       = document.getElementById("ringNum");
+    const ctx           = canvas.getContext("2d", { willReadFrequently: true });
 
     let drawing  = false;
     let revealed = false;
     let lastPt   = null;
     let moveCnt  = 0;
+
+    const TOTAL_SECS    = 7;
+    const CIRCUMFERENCE = 88; /* 2π × 14 */
 
     function roundRect(c, x, y, w, h, r) {
       c.beginPath();
@@ -433,7 +542,7 @@
       ctx.fillText("scratch here", W/2, H/2 - 8);
       ctx.font      = "500 13px -apple-system, BlinkMacSystemFont, sans-serif";
       ctx.fillStyle = "rgba(255,255,255,.82)";
-      ctx.fillText("✨see what you got✨", W/2, H/2 + 14);
+      ctx.fillText("✨ see what you got ✨", W/2, H/2 + 14);
     }
 
     function pt(e) {
@@ -472,13 +581,51 @@
       return clear / total > 0.38;
     }
 
+    /* ── countdown timer helper ── */
+    function startCountdown(seconds, onDone) {
+      countdownWrap.classList.add("visible");
+      ringFill.style.strokeDashoffset = "0";
+      ringNum.textContent = seconds;
+
+      let remaining = seconds;
+
+      /* kick off the ring drain on next frame so transition fires */
+      requestAnimationFrame(() => {
+        ringFill.style.strokeDashoffset = CIRCUMFERENCE;
+      });
+
+      const tick = setInterval(() => {
+        remaining--;
+        ringNum.textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(tick);
+          countdownWrap.classList.remove("visible");
+          onDone();
+        }
+      }, 1000);
+    }
+
+    /* ── main reveal function ── */
     function reveal() {
       if (revealed) return;
       revealed = true;
+
       scratchCard.classList.add("revealed");
       hint.textContent     = "🎉 Yay — your prize is revealed! 💗";
-      tinyNote.textContent = "now check the little one peeking at you 👀";
-      setTimeout(() => peekBtn.classList.add("visible"), 600);
+      tinyNote.textContent = "wait for it... something extra is coming 👀";
+
+      /* chibi peeks in after 0.7s */
+      setTimeout(() => peekBtn.classList.add("visible"), 700);
+
+      /* countdown starts — GIF appears at 0 */
+      startCountdown(TOTAL_SECS, () => {
+        /* fade out prize text, pop in GIF */
+        prizeLayer.classList.add("fade-out");
+        setTimeout(() => {
+          prizeGif.classList.add("show");
+          tinyNote.textContent = "💗";
+        }, 400);
+      });
     }
 
     canvas.addEventListener("pointerdown", e => {
