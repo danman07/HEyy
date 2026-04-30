@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>For Arpita 💗</title>
+  <style>
+    :root {
+      --bg1: #fff4fb; --bg2: #ffe3f2; --bg3: #ffd3ea;
+      --card: rgba(255,255,255,0.78);
+      --text: #5b2b49; --sub: #8b5171;
+      --shadow: 0 14px 40px rgba(168,74,123,0.16);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100dvh;                  /* full viewport height */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;             /* vertical center */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at top left, #fff9fd 0%, var(--bg1) 35%, var(--bg2) 70%, var(--bg3) 100%);
+      overflow-x: hidden;
+      text-align: center;
+      padding:
+        max(20px, env(safe-area-inset-top))
+        14px
+        max(130px, env(safe-area-inset-bottom))
+        14px;
+    }
+
+    /* floating hearts */
+    .hearts { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .heart {
+      position: absolute; bottom: -40px;
+      color: rgba(255,111,174,0.3);
+      animation: floatUp linear infinite;
+      user-select: none;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(.8) rotate(0deg); opacity: 0; }
+      12%  { opacity: 1; }
+      100% { transform: translateY(-115vh) scale(1.15) rotate(20deg); opacity: 0; }
+    }
+
+    /* main card */
+    .wrap { width: min(100%, 420px); position: relative; z-index: 1; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.75);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 28px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #fff7fb; border: 1px solid #ffd0e5;
+      color: #b05682; padding: 8px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; letter-spacing: .02em;
+      margin-bottom: 14px;
+    }
+
+    h1 { font-size: clamp(30px, 8vw, 42px); line-height: 1.07; letter-spacing: -0.03em; margin-bottom: 10px; }
+
+    .subtitle { color: var(--sub); font-size: 15px; line-height: 1.5; max-width: 300px; margin-bottom: 18px; }
+
+    .sorry-box {
+      width: 100%;
+      background: linear-gradient(135deg, #fff7fb, #ffeef7);
+      border: 1px solid #ffd6e8;
+      border-radius: 20px; padding: 16px 18px;
+      line-height: 1.6; color: #7b4463; font-size: 15px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+      animation: softPulse 2.8s ease-in-out infinite;
+      margin-bottom: 24px;
+    }
+    @keyframes softPulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.012); }
+    }
+
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, #ffd0e5, transparent);
+      margin-bottom: 22px;
+    }
+
+    .scratch-tag { color: #a14b76; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 5px; }
+    .scratch-sub { color: var(--sub); font-size: 14px; margin-bottom: 16px; }
+
+    .scratch-card {
+      position: relative; width: 100%; aspect-ratio: 16 / 10;
+      border-radius: 22px; overflow: hidden;
+      background: linear-gradient(160deg, #fff8fc 0%, #ffe8f4 100%);
+      border: 1px solid #ffd3e7;
+    }
+
+    .prize {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 16px;
+      background:
+        radial-gradient(circle at 18% 14%, rgba(255,255,255,.92), transparent 18%),
+        radial-gradient(circle at 82% 82%, rgba(255,255,255,.6), transparent 20%),
+        linear-gradient(155deg, #fffafc 0%, #ffe3f1 50%, #ffd5ea 100%);
+    }
+    .prize::before, .prize::after {
+      content: "✦"; position: absolute; color: #ff88b8;
+      font-size: 18px; animation: twinkle 2s ease-in-out infinite;
+    }
+    .prize::before { top: 14px; left: 14px; }
+    .prize::after  { bottom: 14px; right: 14px; animation-delay: 1s; }
+    @keyframes twinkle {
+      0%, 100% { transform: scale(.7); opacity: .4; }
+      50%       { transform: scale(1.2); opacity: 1; }
+    }
+
+    .prize-badge {
+      display: inline-block; padding: 6px 12px;
+      background: #fff; border: 1px solid #ffd0e3;
+      border-radius: 999px; color: #b14f7e;
+      font-size: 11px; font-weight: 800; margin-bottom: 8px;
+    }
+    .prize h2 { font-size: clamp(20px, 5.5vw, 26px); line-height: 1.15; letter-spacing: -0.03em; color: #7a2e57; margin-bottom: 5px; }
+    .prize p  { color: #9c597c; font-size: 13px; }
+
+    #scratchCanvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      display: block; touch-action: none; cursor: pointer; border-radius: 22px;
+    }
+
+    .scratch-card.revealed #scratchCanvas {
+      opacity: 0;
+      transition: opacity .45s ease;
+      pointer-events: none;
+    }
+
+    .hint      { margin-top: 12px; font-size: 13px; color: #8b5171; }
+    .tiny-note { margin-top: 5px; font-size: 11px; color: #b86b91; }
+
+    /* ── CHIBI — hidden until scratch revealed ── */
+    .peek-btn {
+      position: fixed;
+      right: -8px;
+      bottom: calc(8px + env(safe-area-inset-bottom));
+      width: 108px;
+      height: 136px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(60px);
+      transition: opacity .5s ease, transform .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .peek-btn.visible {
+      opacity: 1;
+      pointer-events: auto;
+      animation: chibiBounceIn .65s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes chibiBounceIn {
+      0%   { transform: translateY(80px); opacity: 0; }
+      60%  { transform: translateY(-8px); opacity: 1; }
+      80%  { transform: translateY(4px); }
+      100% { transform: translateY(0); }
+    }
+
+    .tap-label {
+      position: absolute; top: 6px; left: 4px;
+      background: #fff7fb; border: 1px solid #ffd1e5;
+      color: #b25682; font-size: 10px; font-weight: 800;
+      padding: 6px 9px; border-radius: 999px;
+      box-shadow: 0 8px 18px rgba(168,74,123,.14);
+      animation: wiggle 2.8s ease-in-out infinite;
+      white-space: nowrap;
+    }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      15%       { transform: rotate(-6deg); }
+      30%       { transform: rotate(6deg); }
+      45%       { transform: rotate(-3deg); }
+    }
+
+    .peeker { position: absolute; right: 0; bottom: 0; width: 94px; height: 116px; overflow: hidden; }
+
+    .head {
+      position: absolute; right: -10px; bottom: 6px;
+      width: 84px; height: 84px; border-radius: 50%;
+      background: #fff4fa; border: 3px solid #73405d;
+      box-shadow: 0 14px 24px rgba(132,56,95,.18);
+      transform: translateX(16px);
+      transition: transform .35s ease;
+      animation: bob 2.2s ease-in-out infinite;
+    }
+    .peek-btn:hover .head { transform: translateX(4px); }
+
+    .ear { position: absolute; top: -8px; width: 22px; height: 28px; border-radius: 50%; background: #fff4fa; border: 3px solid #73405d; z-index: -1; }
+    .ear.left  { left: 10px;  transform: rotate(-16deg); }
+    .ear.right { right: 12px; transform: rotate(16deg); }
+
+    .eye { position: absolute; top: 33px; width: 7px; height: 10px; border-radius: 999px; background: #4d2640; }
+    .eye.left  { left: 22px; }
+    .eye.right { right: 22px; }
+
+    .blush { position: absolute; top: 42px; width: 13px; height: 7px; background: #ffbdd7; border-radius: 999px; filter: blur(.2px); opacity: .9; }
+    .blush.left  { left: 10px; }
+    .blush.right { right: 10px; }
+
+    .mouth { position: absolute; left: 50%; top: 48px; width: 13px; height: 7px; margin-left: -6.5px; border-bottom: 3px solid #4d2640; border-radius: 0 0 12px 12px; }
+
+    .paw { position: absolute; left: 6px; bottom: 18px; width: 24px; height: 22px; background: #fff4fa; border: 3px solid #73405d; border-radius: 13px; transform: rotate(-12deg); box-shadow: 0 6px 10px rgba(132,56,95,.12); }
+
+    @keyframes bob {
+      0%, 100% { transform: translateX(16px) translateY(0); }
+      50%       { transform: translateX(16px) translateY(-6px); }
+    }
+
+    /* modal */
+    .modal {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding:
+        max(20px, env(safe-area-inset-top))
+        16px
+        max(20px, env(safe-area-inset-bottom))
+        16px;
+      background: rgba(82,31,58,.38);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      opacity: 0; visibility: hidden;
+      transition: opacity .28s ease, visibility .28s ease;
+      z-index: 40;
+    }
+    .modal.open { opacity: 1; visibility: visible; }
+
+    .modal-card {
+      width: min(100%, 360px);
+      background: linear-gradient(180deg, #fffafe, #fff1f8);
+      border: 1px solid #ffd4e7; border-radius: 28px;
+      padding: 28px 20px 22px;
+      box-shadow: 0 20px 50px rgba(98,37,66,.22);
+      text-align: center;
+      transform: translateY(14px) scale(.95);
+      transition: transform .28s ease;
+      position: relative;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .modal.open .modal-card { transform: translateY(0) scale(1); }
+
+    .close-btn {
+      position: absolute; top: 12px; right: 12px;
+      width: 36px; height: 36px; border: none; border-radius: 50%;
+      background: #fff; color: #8d4b70; font-size: 20px;
+      cursor: pointer; box-shadow: 0 8px 18px rgba(132,56,95,.1);
+    }
+
+    .secret-badge {
+      display: inline-block; padding: 7px 13px;
+      border-radius: 999px; border: 1px solid #ffd4e7;
+      background: #fff; color: #b05a84;
+      font-size: 11px; font-weight: 800; margin-bottom: 12px;
+    }
+
+    .modal-card h3 { font-size: 26px; letter-spacing: -0.03em; color: #6f2d52; margin-bottom: 10px; }
+    .modal-card p  { color: #875472; font-size: 16px; line-height: 1.55; }
+    .stars { margin-top: 14px; font-size: 20px; letter-spacing: 6px; }
+
+    @media (max-width: 370px) {
+      .card { padding: 20px 16px; }
+      h1 { font-size: 27px; }
+      .peek-btn { transform-origin: bottom right; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <div class="card">
+      <div class="eyebrow">💌</div>
+      <h1>hii arpitaaa</h1>
+
+      <div class="sorry-box">
+        I'm sorry, pretty girl. No long excuses.<br>
+        Just a soft, real sorry from me to you 💞<br><br>
+        You deserve better from me<br>
+        and I promise to do better 🙏🌸
+      </div>
+
+      <div class="divider"></div>
+
+      <p class="scratch-tag">A little gift for you</p>
+      <p class="scratch-sub"> Scratch &amp; see your luck ~ </p>
+
+      <div class="scratch-card" id="scratchCard">
+        <div class="prize">
+          <div class="prize-badge">congratulations cutie 🎉</div>
+          <h2>You won a tight hug<br>on your next meet! 💞</h2>
+          <p>claimed &amp; non-refundable 🥺</p>
+        </div>
+        <canvas id="scratchCanvas" aria-label="Scratch to reveal your prize"></canvas>
+      </div>
+
+      <p class="hint" id="hint">Scratch with your finger 💅</p>
+      <p class="tiny-note" id="tinyNote">tiny spoiler: your luck is very cute today</p>
+    </div>
+  </main>
+
+  <!-- chibi — hidden until scratch done -->
+  <button class="peek-btn" id="peekBtn" aria-label="Open secret message">
+    <span class="tap-label">pssst! tap me 🌸</span>
+    <span class="peeker">
+      <span class="head">
+        <span class="ear left"></span>
+        <span class="ear right"></span>
+        <span class="eye left"></span>
+        <span class="eye right"></span>
+        <span class="blush left"></span>
+        <span class="blush right"></span>
+        <span class="mouth"></span>
+      </span>
+      <span class="paw"></span>
+    </span>
+  </button>
+
+  <!-- modal -->
+  <div class="modal" id="secretModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="secretTitle">
+      <button class="close-btn" id="closeModal" aria-label="Close">×</button>
+      <div class="secret-badge">a little extra, from me to you</div>
+      <h3 id="secretTitle">hey you 💗</h3>
+      <p>
+        I choose to be with you <br>
+        not just for one day,<br>
+        but for as long as possible. ∞
+      </p>
+      <div class="stars">✦ ✧ ✦</div>
+    </div>
+  </div>
+
+  <script>
+    /* floating hearts */
+    const heartsEl = document.getElementById("hearts");
+    for (let i = 0; i < 20; i++) {
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.textContent = Math.random() > 0.5 ? "❤" : "♥";
+      h.style.left              = Math.random() * 100 + "vw";
+      h.style.fontSize          = 12 + Math.random() * 20 + "px";
+      h.style.animationDuration = 7 + Math.random() * 8 + "s";
+      h.style.animationDelay    = Math.random() * 6 + "s";
+      heartsEl.appendChild(h);
+    }
+
+    /* scratch card */
+    const scratchCard = document.getElementById("scratchCard");
+    const canvas      = document.getElementById("scratchCanvas");
+    const hint        = document.getElementById("hint");
+    const tinyNote    = document.getElementById("tinyNote");
+    const ctx         = canvas.getContext("2d", { willReadFrequently: true });
+    const peekBtn     = document.getElementById("peekBtn");
+
+    let drawing  = false;
+    let revealed = false;
+    let lastPt   = null;
+    let moveCnt  = 0;
+
+    function roundRect(c, x, y, w, h, r) {
+      c.beginPath();
+      c.moveTo(x+r, y);
+      c.arcTo(x+w, y, x+w, y+h, r);
+      c.arcTo(x+w, y+h, x, y+h, r);
+      c.arcTo(x, y+h, x, y, r);
+      c.arcTo(x, y, x+w, y, r);
+      c.closePath();
+    }
+
+    function drawCover() {
+      const rect = canvas.getBoundingClientRect();
+      const dpr  = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width  = Math.round(rect.width  * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const W = rect.width, H = rect.height;
+      ctx.globalCompositeOperation = "source-over";
+
+      const g = ctx.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0,   "#ff9bc6");
+      g.addColorStop(0.5, "#ff78b1");
+      g.addColorStop(1,   "#ff5ea2");
+      roundRect(ctx, 0, 0, W, H, 22);
+      ctx.fillStyle = g;
+      ctx.fill();
+
+      ctx.save();
+      roundRect(ctx, 0, 0, W, H, 22);
+      ctx.clip();
+      for (let i = 0; i < 16; i++) {
+        ctx.fillStyle = i % 2 ? "rgba(255,255,255,.24)" : "rgba(255,255,255,.14)";
+        ctx.beginPath();
+        ctx.arc(Math.random()*W, Math.random()*H, 3+Math.random()*9, 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.restore();
+
+      ctx.textAlign = "center";
+      ctx.fillStyle = "rgba(255,255,255,.96)";
+      ctx.font      = "700 17px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillText("scratch here", W/2, H/2 - 8);
+      ctx.font      = "500 13px -apple-system, BlinkMacSystemFont, sans-serif";
+      ctx.fillStyle = "rgba(255,255,255,.82)";
+      ctx.fillText("✨see what you got✨", W/2, H/2 + 14);
+    }
+
+    function pt(e) {
+      const r = canvas.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    function erase(x, y) {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.beginPath();
+      ctx.arc(x, y, 19, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    function eraseLine(a, b) {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.lineJoin = ctx.lineCap = "round";
+      ctx.lineWidth = 36;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+      erase(b.x, b.y);
+    }
+
+    function enoughScratched() {
+      const step = 22;
+      const px   = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let clear = 0, total = 0;
+      for (let y = 0; y < canvas.height; y += step) {
+        for (let x = 0; x < canvas.width; x += step) {
+          if (px[(y * canvas.width + x) * 4 + 3] < 60) clear++;
+          total++;
+        }
+      }
+      return clear / total > 0.38;
+    }
+
+    function reveal() {
+      if (revealed) return;
+      revealed = true;
+      scratchCard.classList.add("revealed");
+      hint.textContent     = "🎉 Yay — your prize is revealed! 💗";
+      tinyNote.textContent = "now check the little one peeking at you 👀";
+      setTimeout(() => peekBtn.classList.add("visible"), 600);
+    }
+
+    canvas.addEventListener("pointerdown", e => {
+      if (revealed) return;
+      drawing = true;
+      lastPt  = pt(e);
+      erase(lastPt.x, lastPt.y);
+      canvas.setPointerCapture?.(e.pointerId);
+    });
+
+    canvas.addEventListener("pointermove", e => {
+      if (!drawing || revealed) return;
+      const cur = pt(e);
+      eraseLine(lastPt, cur);
+      lastPt = cur;
+      if (++moveCnt % 6 === 0 && enoughScratched()) reveal();
+    });
+
+    ["pointerup","pointercancel","pointerleave"].forEach(n =>
+      canvas.addEventListener(n, () => {
+        drawing = false;
+        lastPt  = null;
+        if (!revealed && enoughScratched()) reveal();
+      })
+    );
+
+    window.addEventListener("resize", () => { if (!revealed) drawCover(); });
+    drawCover();
+
+    /* modal */
+    const secretModal = document.getElementById("secretModal");
+    const closeBtn    = document.getElementById("closeModal");
+
+    const openModal  = () => { secretModal.classList.add("open"); secretModal.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden"; };
+    const closeModal = () => { secretModal.classList.remove("open"); secretModal.setAttribute("aria-hidden","true"); document.body.style.overflow = ""; };
+
+    peekBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+    secretModal.addEventListener("click", e => { if (e.target === secretModal) closeModal(); });
+    window.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+  </script>
+</body>
+</html>
